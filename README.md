@@ -10,8 +10,8 @@
 - config: ルーティングなどの設定ファイル
 ### **ルーティングに依存した自動的なファイル決定**  
 *config/WPAILS_APP_NAME.php*で定義したルーティングの連想配列を元にページ構造が決定される。  
-> */hello/project/new*にアクセス  
-> → *app/views/hello/project/new.php*がテンプレートファイルとして使われ、*app/controllers/hello/project/new.php*がテンプレートファイルの前に呼び出される  
+> */hello/world*にアクセス  
+> → *app/views/hello/world.php*がテンプレートファイルとして使われ、*app/controllers/hello/world.php*がテンプレートファイルの前に呼び出される  
 
 ### **独立したモジュール**  
 WPAILSは独立した汎用的な機能を複数持つ(モジュールと呼ぶ)。ルーティングは完全に分割されるため、ファイル構造も分割される。
@@ -86,7 +86,7 @@ ControllerとViewsはテーマディレクトリ直下のindex.phpを起点に�
        3. *app/views/hello/_helpers.php*を作成
        4. *app/helpers/modules/hello.php*を作成
 ### **ページ追加方法**
-  - URLが/hello/projectsとなるページを追加
+  - URLが/hello/worldとなるページを追加
     1. 設定ファイル *config/app.php*
        ```PHP
        /**
@@ -109,21 +109,21 @@ ControllerとViewsはテーマディレクトリ直下のindex.phpを起点に�
          return [
            ['slug'=>'hello', 'is_namespace'=>true,
             'ancestors'=>[
-              ['slug'=>'projects', 'title'=>'プロジェクト管理']
+              ['slug'=>'world', 'title'=>'Hello World']
             ]
            ],
          ];
        }
        ```
-    2. app/views/hello/にprojects.phpを作成
-    3. **任意:** app/controllers/hello/にprojects.phpを作成
+    2. app/views/hello/にworld.phpを作成
+    3. **任意:** app/controllers/hello/にworld.phpを作成
 ### **投稿タイプ追加方法**
   - projectを追加
     1. 設定ファイル *config/app.php*
       ```PHP
       function post_types(){
         return [
-          ['name' => 'project', 'label' => 'プロジェクト', 'menu_icon'=>'dashicons-clipboard'],
+          ['name' => 'project', 'label' => 'プロジェクト'],
         ];
       }
       ```
@@ -184,7 +184,7 @@ ControllerとViewsはテーマディレクトリ直下のindex.phpを起点に�
     // 省略
     protected const ORIGINAL_COLUMNS = [
       // 省略
-      ['name'=>'permission', 'label'=>'アクセス権限', 'default'=>'client'],
+      ['name'=>'company_name', 'label'=>'会社名'],
     ];
     // 省略
   }

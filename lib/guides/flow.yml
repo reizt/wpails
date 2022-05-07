@@ -109,11 +109,8 @@ index.php:
     app/assets/css/style.css: WPAILS共通のスタイル
     app/assets/css/MODULE.css: モジュール固有のスタイル
     views/MODULE/_layouts/_head.php: モジュール固有のheadタグ内
-    Font AwesomeのCDN
-    jqueryのCDN
     wp_head()
   <body>
-  wp_body_open()
   views/_layouts/_header.php: WPAILSのヘッダー
   IF モジュールのindex.phpがあれば
     views/MODULE/index.php:
