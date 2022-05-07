@@ -18,7 +18,7 @@ class Request{
    * インスタンスを1つ作成
    */
   static function init() :void{
-    if(self::$is_inited) throw new ErrorException('WPAILS Error: Request is already inited!');
+    if(self::$is_inited) throw new \ErrorException('WPAILS Error: Request is already inited!');
     $route = \Wpails\Route::now();
     $module = \Wpails\Module::now();
     $user_id = get_current_user_id();

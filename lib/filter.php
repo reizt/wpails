@@ -23,7 +23,7 @@ class Filter{
    * @param array{string => string[]} config/WPAILS_APP_NAME.phpにて設定したフィルターの配列
    */
   static function init(array $filters) :void{
-    if(self::$is_inited) throw new ErrorException('WPAILS Error: Filter is already inited!');
+    if(self::$is_inited) throw new \ErrorException('WPAILS Error: Filter is already inited!');
     foreach($filters as $name => $allow_list){
       array_push(self::$instances, new \Wpails\Filter($name, $allow_list));
     }

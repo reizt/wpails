@@ -1,0 +1,59 @@
+$wprails-primary: #7babff;
+#wprails{
+  max-width: 29em;
+  margin: 0 auto;
+  padding: 2em 0;
+  text-align: center;
+  border-radius: 3em;
+  border: solid $wprails-primary .2rem;
+  position: relative;
+  z-index: 1;
+  #wprails-logo{
+    width: 21em;
+    position: relative;
+    @keyframes wprails-gotoheaven {
+      0%{top: 0;}
+      15%{top: 2em;}
+      100%{top: -100em;}
+    }
+    &.-heaven{
+      animation: forwards wprails-gotoheaven 2s ease;
+    }
+  }
+  a, button, h1{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  h1{
+    color: #999999;
+    font-weight: normal;
+  }
+  #wprails-bottom{
+    display: flex;
+    justify-content: center;
+    margin: .6em 0;
+  }
+  a{
+    text-decoration: none;
+  }
+  a, button{
+    font-size: 1em;
+    display: inline-block;
+    border-radius: 1em;
+    background-color: $wprails-primary;
+    color: #ffffff;
+    padding: .8em 0;
+    margin: 0 .4em;
+    width: 10em;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition-duration: .5s;
+    &:hover, &:focus{
+      color: #ffffff;
+      opacity: 0.7;
+      box-shadow: 0 0 6px #cccccc;
+      transition-duration: .5s;
+    }
+  }
+}

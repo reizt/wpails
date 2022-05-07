@@ -29,11 +29,7 @@ if(file_exists($LOADED_FILES['module_views_helper'])){
 <html <?= language_attributes() ?>>
   <?php include \file_path::views('_layouts/_head') ?>
   <body data-module="<?= $WPAILS_MODULE ?>">
-    <?php if(\Wpails\is_development()){
-      include \file_path::views('_layouts/_development');
-    } ?>
     <?php
-      include \file_path::views('_layouts/_header');
       // モジュール固有のindex.phpがあれば読むが
       // なければそのままテンプレートファイルを読む
       if(file_exists($LOADED_FILES['module_template'])){

@@ -50,7 +50,7 @@ class Router{
   }
   /** 現在のパスを取得してRoute::initを呼び出す */
   static function init() :void{
-    if(self::$is_inited) throw new ErrorException('WPAILS Error: Router is already inited!');
+    if(self::$is_inited) throw new \ErrorException('WPAILS Error: Router is already inited!');
     $path = parse_url($_SERVER['REQUEST_URI'])['path'];
     $current_path = preg_replace(
       '/\/$/', '', $path

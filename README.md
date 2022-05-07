@@ -11,36 +11,51 @@
 ### **ルーティングに依存した自動的なファイル決定**  
 *config/WPAILS_APP_NAME.php*で定義したルーティングの連想配列を元にページ構造が決定される。  
 > */controlpanel/project/new*にアクセス  
-> → *views/controlpanel/project/new.php*がテンプレートファイルとして使われ、*controllers/controlpanel/project/new.php*がテンプレートファイルの前に呼び出される  
+> → *app/views/controlpanel/project/new.php*がテンプレートファイルとして使われ、*app/controllers/controlpanel/project/new.php*がテンプレートファイルの前に呼び出される  
 
 ### **独立したモジュール**  
 WPAILSは独立した汎用的な機能を複数持つ(モジュールと呼ぶ)。ルーティングは完全に分割されるため、ファイル構造も分割される。
 >例えばControlpanelモジュールに固有なファイルはcontrolpanelディレクトリにすべて格納される。
 ```
-assets/
-  js/
-    controlpanel.js モジュール固有のJSファイル
-  scss/
+app/
+  assets/
+    js/
+      controlpanel.js モジュール固有
+    scss/
+      modules/
+        controlpanel/ モジュール固有
+      controlpanel.scss モジュール固有
+  app/controllers/
+    controlpanel/ モジュール固有
+  app/views/
+    controlpanel/ モジュール固有
+  app/helpers/
     modules/
-      controlpanel/
-        モジュール固有のSCSSファイル
-    controlpanel.scss モジュール固有のSCSSエントリポイント
-controllers/
-  controlpanel/
-    モジュール固有のPHPファイル
-views/
-  controlpanel/
-    モジュール固有のPHPファイル
+      controlpanel.php モジュール固有
 ```
 ### **ルーティングへの許可権設定**
 ルーティングにフィルターを指定すると、その下のURLにもフィルターが適応される。
 
 フィルターは許可権のリストを持っており、ログインユーザー(または非ログインユーザー)の許可権がリストに含まれるかを検証する。
 ### **WPのheader.php, footer.phpを使用しない**
-特定のファイルはfunctions.phpで読まれるが、ほとんどのファイルはテーマディレクトリ直下のindex.phpを起点にして読み込まれる。
+WPAILSのライブラリファイルはfunctions.phpで読まれ、
+ControllerとViewsはテーマディレクトリ直下のindex.phpを起点にして読み込まれる。
 ### **WP_Post, WP_Userへの操作をラップしたオブジェクト**
-投稿はPost, ユーザーはUserクラスとしてラップする。WordPressは参照に特化した関数が多く用意されているが、更新・追加・削除には少々難を要する。そういった面倒な処理を、極力単純な入力で期待した結果を得られるオブジェクトのメソッドとして隠蔽する。wp_postsとwp_usersとの関数の使い方の違いという面倒なことから解放されることができ、同じ命令で同じ形式の出力が得られる。また、カスタム投稿タイプについてはPostクラスを継承したクラス、ユーザーに関してはuser_metaのuser_typeによって
-
+投稿はPost, ユーザーはUserクラスとしてラップする。WordPressは参照に特化した関数が多く用意されているが、更新・追加・削除には少々難を要する。そういった面倒な処理を、極力単純な入力で期待した結果を得られるオブジェクトのメソッドとして隠蔽する。wp_postsとwp_usersとの関数の使い方の違いという面倒なことから解放されることができ、同じ命令で同じ形式の出力が得られる。また、カスタム投稿タイプについてはPostクラスを継承したクラス、ユーザーに関してはuser_metaのuser_typeによって単一継承したクラスを使用する。
+# セットアップ
+1. プラグイン
+   1. WP-SCSSのインストール
+   2. WP-SCSSの設定
+      ```
+      Configure Paths:
+        Base Location: Current Theme
+        SCSS Location: "/app/assets/scss"
+        CSS Location: "/app/assets/css"
+      Compiling Options:
+        Source Map Mode: Inline
+      ```
+2. PHP Library
+   1. `composer install`を実行してCarbonとMonologをインストール
 # 使用方法
 ### **モジュール追加方法**
   - controlpanelモジュールを追加
@@ -63,15 +78,15 @@ views/
          ];
        }
        ```
-    2. *views/controlpanel*ディレクトリを作成
-    3. *controllers/controlpanel*ディレクトリを作成
+    2. *app/views/controlpanel*ディレクトリを作成
+    3. *app/controllers/controlpanel*ディレクトリを作成
     4. 以下は任意
-       1. *views/controlpanel/index.php*を作成
-       2. *controllers/controlpanel/_helpers.php*を作成
-       3. *views/controlpanel/_helpers.php*を作成
-       4. *helpers/modules/controlpanel.php*を作成
+       1. *app/views/controlpanel/index.php*を作成
+       2. *app/controllers/controlpanel/_helpers.php*を作成
+       3. *app/views/controlpanel/_helpers.php*を作成
+       4. *app/helpers/modules/controlpanel.php*を作成
 ### **ページ追加方法**
-  - /controlpanel/projectsを追加
+  - URLが/controlpanel/projectsとなるページを追加
     1. 設定ファイル *config/app.php*
        ```PHP
        /**
@@ -100,8 +115,8 @@ views/
          ];
        }
        ```
-    2. views/controlpanel/にprojects.phpを作成
-    3. **任意:** controllers/controlpanel/にprojects.phpを作成
+    2. app/views/controlpanel/にprojects.phpを作成
+    3. **任意:** app/controllers/controlpanel/にprojects.phpを作成
 ### **投稿タイプ追加方法**
   - projectを追加
     1. 設定ファイル *config/app.php*
@@ -112,7 +127,7 @@ views/
         ];
       }
       ```
-    2. models/wp_records/post_ancestors/にproject.phpを追加
+    2. app/models/wp_records/post_ancestors/にproject.phpを追加
       ```PHP
       final class Project extends Post{
         // post_type
@@ -152,7 +167,7 @@ views/
       }
       ```
 ### **ルーティングへの許可権設定**
-1. Userの子クラスを参照 *models/wp_records/user_ancestors/\*.php*
+1. Userの子クラスを参照 *app/models/wp_records/user_ancestors/\*.php*
   ```PHP
   class Employee extends User{
     // 省略
@@ -196,18 +211,3 @@ views/
   }
   ```
   この場合logged_inフィルターはpermissionカラムがadmin, staff, clientであるユーザーのみ許可する
-# 開発環境の構築 (Ubuntu)
-1. PHPのインストール
-   1. aptのアップデート `sudo apt update -y`
-   2. PHPのインストール `sudo apt install php libapache2-mod-php php-gd php-xml php-cli php-mbstring php-soap php-xmlrpc php-zip`
-   3. インストールされているか確認 `php -v`
-2. Composerのインストール
-   1. composer.pharが現在のディレクトリに作成される `curl -sS https://getcomposer.org/installer | php`
-   2. PATHが通っている場所に移動する `sudo mv composer.phar /usr/local/bin/composer`
-   3. 実行権限を与える `sudo chmod +x /usr/local/bin/composer`
-   4. シェルをリロード `source ~/.bashrc`
-   5. インストールされているか確認 `composer -v`
-3. PHP Carbonのインストール
-   1. carbonをプロジェクトに追加 `composer require nesbot/carbon`
-4. PHP Monologのインストール
-   1. monologをプロジェクトに追加 `composer require monolog/monolog`

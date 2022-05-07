@@ -40,13 +40,7 @@ class URL{
     return self::parse(null, $url, $params);
   }
   /** 以下はモジュールごと */
-  static function developer(string $url, array $params = []) :string{
-    return self::parse('developer', $url, $params);
-  }
-  static function controlpanel(string $url, array $params = []) :string{
-    return self::parse(null, $url, $params);
-  }
-  static function auth(string $url, array $params = []) :string{
-    return self::parse(null, $url, $params);
+  static function hello(string $url, array $params = []) :string{
+    return self::parse('hello', $url, $params);
   }
 }
