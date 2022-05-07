@@ -1,3 +1,6 @@
+/**
+ * helloモジュール用のJSファイル
+ */
 document.addEventListener('DOMContentLoaded', function(){
   const logo = document.getElementById('wprails-logo');
   const goToHeaven = document.getElementById('wprails-gotoheaven');

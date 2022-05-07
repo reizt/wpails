@@ -38,6 +38,7 @@ if(file_exists($LOADED_FILES['module_views_helper'])){
         include $LOADED_FILES['template'];
       }
       ?>
+    <?= javascript_tag('wpails') ?>
     <?= javascript_tag('index') ?>
     <?php if(!!$WPAILS_MODULE) : ?>
       <?= javascript_tag($WPAILS_MODULE) ?>
