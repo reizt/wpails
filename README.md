@@ -1,5 +1,5 @@
 # WPAILS マニュアル
-### CLANEのWebアプリ開発を支える基幹機能を網羅したWordPressテーマ。
+### Railsエンジニアが開発しやすいMVC型の軽量WordPressテーマ
 ## 基本概念
 ---
 ### **MVCフレームワークを採用**
