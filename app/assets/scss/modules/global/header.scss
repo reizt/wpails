@@ -1,0 +1,70 @@
+#global-header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  @include bg('white-sub1');
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.15);
+  padding: .6em;
+  display: flex;
+  align-items: center;
+  .global-header--logo{
+    width: 10em;
+    a{
+      @include text('green-primary');
+    }
+  }
+  .global-header--profile{
+    display: flex;
+    align-items: center;
+    font-size: .8em;
+    padding-left: 0.5em;
+    @include border-l('white-sub3', .2rem);
+    @include leq('md'){display: none;}
+    cursor: pointer;
+    .global-header--profile--icon-wrapper{
+      border-radius: 50%;
+      $s: 1.8em;
+      width: $s;
+      height: $s;
+      @include bg('green-primary');
+      @include text('white');
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .global-header--profile--username{
+      padding: 0 .5em;
+    }
+    .global-header--profile--angle{
+      @include text('green-primary');
+      font-size: 1.2em;
+      padding: 0 .5em;
+    }
+    .global-header--profile--dropdown{
+      position: absolute;
+      right: .5em;
+      width: 10em;
+      top: -10em;
+      opacity: 0;
+      $duration-ms: .2s;
+      transition-property: top opacity;
+      transition-duration: $duration-ms;
+      &.-open{
+        top: 4em;
+        opacity: 1;
+        transition-property: top opacity;
+        transition-duration: $duration-ms;
+      }
+      .global-header--profile--dropdown--item{
+        @include bg('green-dark');
+        @include text('white');
+        @include hover-translucent;
+        @include bold;
+        padding: 1em;
+        margin-top: .3em;
+        width: 100%;
+      }
+    }
+  }
+}

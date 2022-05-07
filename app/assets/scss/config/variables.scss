@@ -1,0 +1,50 @@
+// NOTE: 前のブレークポイント
+// $xs-sm: 480px;
+// $sm-md: 667px;
+// $md-lg: 992px;
+// $lg-xl: 1200px;
+// $xl-xxl: 1400px;
+$xs-sm: 520px;
+$sm-md: 707px;
+$md-lg: 1080px;
+$lg-xl: 1280px;
+$xl-xxl: 1480px;
+$min-bps: (
+  'xs': 0px,
+  'sm': $xs-sm,
+  'md': $sm-md,
+  'lg': $md-lg,
+  'xl': $lg-xl,
+  'xxl': $xl-xxl,
+);
+$max-bps: (
+  'xs': $xs-sm,
+  'sm': $sm-md,
+  'md': $md-lg,
+  'lg': $lg-xl,
+  'xl': $xl-xxl,
+);
+$colors: (
+  white: #fff,
+  white-sub1: #fcfcfc,
+  white-sub2: #f5f5f5,
+  white-sub3: #e6e6e6,
+  white-sub4: #e2e5e8,
+  white-sub5: #d1d1d1,
+  white-gray: #c7c7c7,
+  white-green: #f2f7f4,
+  white-green-dark: #eaf2ee,
+  gray: #777,
+  black-sub1: #202020,
+  black: #000,
+  green-dark: #487474,
+  green-primary: #5dac7d,
+  green-primary-translucent: rgba(93, 172, 125, 0.2),
+  green-yellow: #87d979,
+  green-warbler: #88c6a2,// ウグイス色
+  red: #ff0000,
+  yellow: #ffea00,
+);
+$header-height: 4em;
+
+$hover-duration-ms: .5s;

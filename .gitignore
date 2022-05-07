@@ -1,0 +1,9 @@
+/app/assets/css/*
+!/app/assets/css/.keep
+/app/assets/scss/error_log.log
+/logs/*
+!/logs/.keep
+/development/*
+!/development/.keep
+/vendor/*
+!/vendor/.keep

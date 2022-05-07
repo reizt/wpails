@@ -1,0 +1,6 @@
+{
+    "require": {
+        "nesbot/carbon": "^2.57",
+        "monolog/monolog": "^2.5"
+    }
+}
