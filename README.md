@@ -10,28 +10,28 @@
 - config: ルーティングなどの設定ファイル
 ### **ルーティングに依存した自動的なファイル決定**  
 *config/WPAILS_APP_NAME.php*で定義したルーティングの連想配列を元にページ構造が決定される。  
-> */controlpanel/project/new*にアクセス  
-> → *app/views/controlpanel/project/new.php*がテンプレートファイルとして使われ、*app/controllers/controlpanel/project/new.php*がテンプレートファイルの前に呼び出される  
+> */hello/project/new*にアクセス  
+> → *app/views/hello/project/new.php*がテンプレートファイルとして使われ、*app/controllers/hello/project/new.php*がテンプレートファイルの前に呼び出される  
 
 ### **独立したモジュール**  
 WPAILSは独立した汎用的な機能を複数持つ(モジュールと呼ぶ)。ルーティングは完全に分割されるため、ファイル構造も分割される。
->例えばControlpanelモジュールに固有なファイルはcontrolpanelディレクトリにすべて格納される。
+>例えばControlpanelモジュールに固有なファイルはhelloディレクトリにすべて格納される。
 ```
 app/
   assets/
     js/
-      controlpanel.js モジュール固有
+      hello.js モジュール固有
     scss/
       modules/
-        controlpanel/ モジュール固有
-      controlpanel.scss モジュール固有
+        hello/ モジュール固有
+      hello.scss モジュール固有
   app/controllers/
-    controlpanel/ モジュール固有
+    hello/ モジュール固有
   app/views/
-    controlpanel/ モジュール固有
+    hello/ モジュール固有
   app/helpers/
     modules/
-      controlpanel.php モジュール固有
+      hello.php モジュール固有
 ```
 ### **ルーティングへの許可権設定**
 ルーティングにフィルターを指定すると、その下のURLにもフィルターが適応される。
@@ -58,35 +58,35 @@ ControllerとViewsはテーマディレクトリ直下のindex.phpを起点に�
    1. `composer install`を実行してCarbonとMonologをインストール
 # 使用方法
 ### **モジュール追加方法**
-  - controlpanelモジュールを追加
+  - helloモジュールを追加
     1. 設定ファイル *config/app.php*
        ```PHP
        function routes(){
          return [
-           // URLを/controlpanel以下にする場合
-           ['slug'=>'controlpanel', 'is_namespace'=>true,
+           // URLを/hello以下にする場合
+           ['slug'=>'hello', 'is_namespace'=>true,
             'ancestors'=>[
-              // /controlpanel配下のルーティング
+              // /hello配下のルーティング
             ]
            ],
-           // URLを/controlpanel以下にしない場合
-           ['slug'=>'controlpanel', 'is_namespace'=>true, 'no_nested_url'=>true,
+           // URLを/hello以下にしない場合
+           ['slug'=>'hello', 'is_namespace'=>true, 'no_nested_url'=>true,
             'ancestors'=>[
-              // /controlpanel配下のルーティング
+              // /hello配下のルーティング
             ]
            ],
          ];
        }
        ```
-    2. *app/views/controlpanel*ディレクトリを作成
-    3. *app/controllers/controlpanel*ディレクトリを作成
+    2. *app/views/hello*ディレクトリを作成
+    3. *app/controllers/hello*ディレクトリを作成
     4. 以下は任意
-       1. *app/views/controlpanel/index.php*を作成
-       2. *app/controllers/controlpanel/_helpers.php*を作成
-       3. *app/views/controlpanel/_helpers.php*を作成
-       4. *app/helpers/modules/controlpanel.php*を作成
+       1. *app/views/hello/index.php*を作成
+       2. *app/controllers/hello/_helpers.php*を作成
+       3. *app/views/hello/_helpers.php*を作成
+       4. *app/helpers/modules/hello.php*を作成
 ### **ページ追加方法**
-  - URLが/controlpanel/projectsとなるページを追加
+  - URLが/hello/projectsとなるページを追加
     1. 設定ファイル *config/app.php*
        ```PHP
        /**
@@ -107,7 +107,7 @@ ControllerとViewsはテーマディレクトリ直下のindex.phpを起点に�
        */
        function routes(){
          return [
-           ['slug'=>'controlpanel', 'is_namespace'=>true,
+           ['slug'=>'hello', 'is_namespace'=>true,
             'ancestors'=>[
               ['slug'=>'projects', 'title'=>'プロジェクト管理']
             ]
@@ -115,8 +115,8 @@ ControllerとViewsはテーマディレクトリ直下のindex.phpを起点に�
          ];
        }
        ```
-    2. app/views/controlpanel/にprojects.phpを作成
-    3. **任意:** app/controllers/controlpanel/にprojects.phpを作成
+    2. app/views/hello/にprojects.phpを作成
+    3. **任意:** app/controllers/hello/にprojects.phpを作成
 ### **投稿タイプ追加方法**
   - projectを追加
     1. 設定ファイル *config/app.php*

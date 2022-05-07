@@ -2,29 +2,23 @@ PATH --- リクエストされたパス
 MODULE --- リクエストに対応するモジュール
 MODULEを含むファイルは存在しなければ読み込まれない
 functions.php:
-  定数の定義
-    - WPAILS_ENV
-    - WPAILS_APP_NAME
-  [libの読み込み]
+  WPAILSの読み込み
   lib/main.php:
     lib/file_path.php:
       \file_pathの定義
       ファイルのパスを取得しやすいようにした関数
     vendor/autoload.php: composerで入れたライブラリ
-    lib/logger.php:
-      \Monolog\LoggerクラスをラップしたLoggerクラス
-      Loggerのクラスメソッドとしてログを記録する
-    lib/before.php:
-      WPAILSデフォルトのアクションフックなど
-    lib/support.php: PHPの組み込み関数に準じたオリジナル関数を追加
     config/app.php:
       アプリの設定
       config/routes.php: ルーティングの設定
-        routes/*.php:
-          モジュールのルーティングを記述
-          routes.phpのネストを浅くする目的なのでなくてもよい
+    lib/logger.php:
+      \Monolog\LoggerクラスをラップしたLoggerクラス
+      Loggerのクラスメソッドとしてログを記録する
     lib/validate_config.php:
       configに正しい値がセットされていなかったらエラー
+    lib/hooks.php:
+      WPAILSデフォルトのアクションフックなど
+    lib/support.php: PHPの組み込み関数に準じたオリジナル関数を追加
     lib/interface.php:
       configにアクセスしやすくする関数の定義
     lib/module.php:
@@ -39,7 +33,6 @@ functions.php:
     lib/router.php: ルーティングの設定を読み込んでリクエストを処理するオブジェクト
     開発環境ならWP_SCSS_ALWAYS_RECOMPILE = true
     helpers/preload/*.php:
-      helpers/preload/time.php: Carbonを使った時間計算用の関数
       helpers/preload/url.php: クエリを連想配列で渡せばURLに変換してくれるURLオブジェクト
     config/action_hooks.php: add_actionを設定する
 index.php:
@@ -110,18 +103,11 @@ index.php:
       - form_id_tag データ更新フォームに必要なID属性を入れるinput:hiddenを生成
   views/MODULE/_helpers.php:
     ビューファイルで使う再利用関数(モジュール固有)
-    [controlpanelモジュールの場合]
-      - processor_closure 値を加工するクロージャを返す
-      - options_by_objects selectタグで使うvalueとlabelのペアを返す
-      - info_rows 一行に[属性ラベル 属性値]のような配置になっているHTMLを返す
-      - list_table_row_cells list_table関数が複雑化しないために抜き出した関数
-      - list_table オブジェクトの集合とカラムの集合からテーブルのHTMLを生成する
-      - form_pair 一行に[属性ラベル 属性フィールド]のような配置になっているHTMLを返す
   <!DOCTYPE html>
   views/_layouts/_head.php: headタグはここに書く
     authenticity_tokenのmetaタグ
-    assets/css/style.css: WPAILS共通のスタイル
-    assets/css/MODULE.css: モジュール固有のスタイル
+    app/assets/css/style.css: WPAILS共通のスタイル
+    app/assets/css/MODULE.css: モジュール固有のスタイル
     views/MODULE/_layouts/_head.php: モジュール固有のheadタグ内
     Font AwesomeのCDN
     jqueryのCDN
@@ -132,28 +118,13 @@ index.php:
   IF モジュールのindex.phpがあれば
     views/MODULE/index.php:
       モジュールのビューファイルのルート
-      [controlpanelモジュールの場合]
-      views/controlpanel/_layouts/_sidebar.php: controlpanelモジュールのサイドバー
-      \#controlpanel-layout-outer
-        \#controlpanel-layout-main
-          views/controlpanel/_layouts/_breadlist.php: パンくずリスト
-          views/controlpanel/_layouts/_flash.php: フラッシュ
-          views/PATH.php: リクエストに応じたテンプレートファイル
-      \#controlpanel-modal-mask
   ELSE
     views/PATH.php: リクエストに応じたテンプレートファイル
   ENDIF
-  assets/js/index.js:
+  app/assets/js/index.js:
     共通のJSファイル
       - フォーム送信時にCSRFを自動挿入
-      - モーダルコンポーネント
-      - ヘッダーのプロフィール
-      - 変更したら送信する.SubmitNowコンポーネント
-  assets/js/MODULE.js:
+  app/assets/js/MODULE.js:
     モジュール固有のJSファイル
-    [controlpanelの場合]
-      - サイドバーコンポーネント
-  views/_layouts/_develpment.php:
-    開発環境用ビューファイル
-      - wp-adminへのリンク
-      - Routesへのリンク
+  controllers/_after_render.php:
+    全ページでHTML出力後に行う処理
