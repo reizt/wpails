@@ -1,6 +1,6 @@
 <?php
 /**
- * Route, Module, Filterを使ってルーティングを制御する\Wpails\Routerオブジェクト
+ * Route, Module, Filterを使ってルーティングを制御するRouterオブジェクト
  * 
  * ルートが存在するか検証
  * リダイレクトオプションがあるか検証
@@ -20,7 +20,7 @@ class Router{
   static function disable_renderer() :void{self::$renderable = false;}
   /** loginページへリダイレクト */
   static function redirect_to_login(string $redirect_url) :void{
-    wp_safe_redirect(WPAILS_LOGIN_PATH.'?redirect_url='.$redirect_url);
+    wp_safe_redirect(Config\LOGIN_PATH.'?redirect_url='.$redirect_url);
     exit;
   }
   /** renderableじゃなかったらエラー */
@@ -58,15 +58,15 @@ class Router{
     if($current_path === ''){
       $current_path = '/';// ルートの場合
     }
-    \Wpails\Route::init(\Wpails\Config\routes(), $current_path);
+    Route::init(Config\routes(), $current_path);
     self::$is_inited = true;
   }
   /** リクエストされたルーティングが登録されているか検証 */
   static function render_404_if_route_doesnt_exist() :void{
     self::throw_error_if_not_renderable();
-    $route = \Wpails\Route::now();
+    $route = Route::now();
     if(!!$route){
-      \Wpails\Module::init(\Wpails\Config\MODULES, $route);
+      Module::init(Config\MODULES, $route);
     }else{
       self::render_404();
     }
@@ -74,8 +74,8 @@ class Router{
   /** リクエストされたルーティングにリダイレクトの値があればリダイレクト */
   static function redirect_if_current_route_has_redirect() :void{
     self::throw_error_if_not_renderable();
-    $route = \Wpails\Route::now();
-    \Wpails\Filter::init(\Wpails\Config\FILTERS);
+    $route = Route::now();
+    Filter::init(Config\FILTERS);
     if(isset($route->redirect)){
       wp_safe_redirect($route->redirect, 302);
       exit;
@@ -84,8 +84,8 @@ class Router{
   /** リクエストされたルーティングがユーザーを許可していなかったら404またはログインページへ */
   static function render_404_if_not_permitted() :void{
     self::throw_error_if_not_renderable();
-    $route = \Wpails\Route::now();
-    $filter = \Wpails\Filter::get($route->filter);
+    $route = Route::now();
+    $filter = Filter::get($route->filter);
     $user_id = get_current_user_id();
     if($user_id){
       $meta = get_user_meta($user_id);
@@ -102,7 +102,6 @@ class Router{
         $this_url = (empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         self::redirect_to_login($this_url);
       }
-      exit;
     }
   }
 }
