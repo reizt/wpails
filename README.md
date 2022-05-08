@@ -9,13 +9,13 @@
 - helpers: 再利用する関数の定義
 - config: ルーティングなどの設定ファイル
 ### **ルーティングに依存した自動的なファイル決定**  
-*config/WPAILS_APP_NAME.php*で定義したルーティングの連想配列を元にページ構造が決定される。  
+*config/routes.php*で定義したルーティングの連想配列を元にページ構造が決定される。  
 > */hello/world*にアクセス  
 > → *app/views/hello/world.php*がテンプレートファイルとして使われ、*app/controllers/hello/world.php*がテンプレートファイルの前に呼び出される  
-
+> (no_nested_urlオプションをtrueにすると/worldにアクセスしたとき同様のファイルが使われる)
 ### **独立したモジュール**  
 WPAILSは独立した汎用的な機能を複数持つ(モジュールと呼ぶ)。ルーティングは完全に分割されるため、ファイル構造も分割される。
->例えばControlpanelモジュールに固有なファイルはhelloディレクトリにすべて格納される。
+>例えばhelloモジュールに固有なファイルはhelloディレクトリにすべて格納される。
 ```
 app/
   assets/
@@ -118,54 +118,46 @@ ControllerとViewsはテーマディレクトリ直下のindex.phpを起点に�
     2. app/views/hello/にworld.phpを作成
     3. **任意:** app/controllers/hello/にworld.phpを作成
 ### **投稿タイプ追加方法**
-  - projectを追加
-    1. 設定ファイル *config/app.php*
-      ```PHP
-      function post_types(){
-        return [
-          ['name' => 'project', 'label' => 'プロジェクト'],
-        ];
-      }
-      ```
-    2. app/models/wp_records/post_ancestors/にproject.phpを追加
-      ```PHP
-      final class Project extends Post{
-        // post_type
-        protected const POST_TYPE = 'project';
-        /**
-        * PostクラスのDEFAULT_COLUMNSにマージするカラム
-        *[
-        *   [
-        *     'name'=> DBに保存するカラム名
-        *     'label'=> 表示するカラム名
-        *     'validations'=>[ バリデーション
-        *       'required'=> 必須項目か
-        *     ]
-        *   ], ...
-        * ]
-        */
-        protected const ORIGINAL_COLUMNS = [
-          ['name'=>'post_title', 'label'=>'プロジェクト名', 'validations'=>['required'=>true]],
-        ];
-        /**
-        * selectタグなどで使う静的な選択肢
-        * [
-        *   DBに保存されるカラム名 => [
-        *    [
-        *    'value'=>DBに保存する値,
-        *    'label'=>optionタグに表示される値
-        *    ], ...
-        * ]
-        */
-        const STATIC_OPTIONS = [
-          'billing_status' => [
-            ['value'=>'unclaimed', 'label'=>'未請求'],
-            ['value'=>'billed', 'label'=>'請求済み'],
-            ['value'=>'deposited', 'label'=>'入金済み'],
-          ],
-        ];
-      }
-      ```
+projectを追加するとき
+ 1. app/models/wp_records/post_ancestors/にproject.phpを追加
+   ```PHP
+   final class Project extends Post{
+     // post_type
+     protected const POST_TYPE = 'project';
+     /**
+     * PostクラスのDEFAULT_COLUMNSにマージするカラム
+     *[
+     *   [
+     *     'name'=> DBに保存するカラム名
+     *     'label'=> 表示するカラム名
+     *     'validations'=>[ バリデーション
+     *       'required'=> 必須項目か
+     *     ]
+     *   ], ...
+     * ]
+     */
+     protected const ORIGINAL_COLUMNS = [
+       ['name'=>'post_title', 'label'=>'プロジェクト名', 'validations'=>['required'=>true]],
+     ];
+     /**
+     * selectタグなどで使う静的な選択肢
+     * [
+     *   DBに保存されるカラム名 => [
+     *    [
+     *    'value'=>DBに保存する値,
+     *    'label'=>optionタグに表示される値
+     *    ], ...
+     * ]
+     */
+     const STATIC_OPTIONS = [
+       'billing_status' => [
+         ['value'=>'unclaimed', 'label'=>'未請求'],
+         ['value'=>'billed', 'label'=>'請求済み'],
+         ['value'=>'deposited', 'label'=>'入金済み'],
+       ],
+     ];
+   }
+   ```
 ### **ルーティングへの許可権設定**
 1. Userの子クラスを参照 *app/models/wp_records/user_ancestors/\*.php*
   ```PHP
@@ -184,7 +176,7 @@ ControllerとViewsはテーマディレクトリ直下のindex.phpを起点に�
     // 省略
     protected const ORIGINAL_COLUMNS = [
       // 省略
-      ['name'=>'company_name', 'label'=>'会社名'],
+      ['name'=>'permission', 'label'=>'アクセス権限', 'default'=>'client'],
     ];
     // 省略
   }
