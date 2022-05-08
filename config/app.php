@@ -5,7 +5,6 @@
  * @package Config
  */
 namespace Wpails\Config;
-require \file_path::config('routes');
 const ENV = 'development';
 // const ENV = 'production';
 const LOGFILE = 'logs/app.'.ENV.'.log';
@@ -30,4 +29,4 @@ const FILTERS = [
   ],
 ];
 const PERMISSIONS = ['admin', 'staff', 'client'];
-const WPAILS_LOGIN_PATH = '/login';
+const LOGIN_PATH = '/login';

@@ -10,6 +10,7 @@ require get_template_directory() . '/lib/file_path.php';
 
 require \file_path::base('vendor/autoload.php');
 require \file_path::config('app');
+require \file_path::config('routes');
 require \file_path::base('lib/logger.php');
 \Logger::init('rampup_system');
 require \file_path::base('lib/validate_config.php');
